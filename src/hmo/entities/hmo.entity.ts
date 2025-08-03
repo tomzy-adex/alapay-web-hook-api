@@ -26,6 +26,9 @@ export class Hmo extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   address: string;
 
+  @Column({ type: 'text', nullable: true })
+  image: string;
+
   @Column({ default: ProcessStatus.PENDING })
   status: ProcessStatus;
 

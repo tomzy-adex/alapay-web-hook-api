@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, Matches, IsOptional, IsUrl } from 'class-validator';
 
 export class CreateHmoDto {
   @ApiProperty({
@@ -40,4 +40,13 @@ export class CreateHmoDto {
   @IsString()
   @IsNotEmpty()
   address: string;
+
+  @ApiProperty({
+    description: 'URL to HMO logo or image',
+    example: 'https://example.com/hmo-logo.png',
+    required: false,
+  })
+  @IsOptional()
+  @IsUrl({}, { message: 'Image must be a valid URL' })
+  image?: string;
 }

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID, IsOptional } from 'class-validator';
 import { QueryDto } from 'src/config/dto/query.dto';
 
 export class HmoQueryDto {
@@ -20,6 +20,33 @@ export class HmoQueryDto {
   @IsUUID()
   @IsNotEmpty()
   hmoId: string;
+
+  @ApiProperty({
+    description: 'Search term for filtering',
+    example: 'HealthCare',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @ApiProperty({
+    description: 'Field to sort by',
+    example: 'name',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  sortBy?: string;
+
+  @ApiProperty({
+    description: 'Sort order (ASC or DESC)',
+    example: 'ASC',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  sortOrder?: string;
 }
 
 export class HmosQueryDto extends QueryDto {
@@ -40,6 +67,33 @@ export class HmosQueryDto extends QueryDto {
   @IsString()
   @IsNotEmpty()
   hmoId: string;
+
+  @ApiProperty({
+    description: 'Search term for filtering',
+    example: 'HealthCare',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @ApiProperty({
+    description: 'Field to sort by',
+    example: 'name',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  sortBy?: string;
+
+  @ApiProperty({
+    description: 'Sort order (ASC or DESC)',
+    example: 'ASC',
+    required: false,
+  })
+  @IsOptional()
+  @IsString()
+  sortOrder?: string;
 }
 
 export class AccountTierQueryDto extends HmoQueryDto {

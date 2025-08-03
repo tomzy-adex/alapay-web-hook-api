@@ -1,0 +1,1128 @@
+{
+  "info": {
+    "name": "ALAPAY WebHook API",
+    "description": "Comprehensive API collection for ALAPAY WebHook API with authentication, user management, HMO operations, and payment processing endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{jwt_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "api_version",
+      "value": "v1",
+      "type": "string"
+    },
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/api/{{api_version}}/",
+          "host": ["{{base_url}}"],
+          "path": ["api", "{{api_version}}", ""]
+        },
+        "description": "Basic health check endpoint to verify API is running"
+      },
+      "response": []
+    },
+    {
+      "name": "User Management",
+      "item": [
+        {
+          "name": "Get User Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/user/profile?adminId={{user_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "user", "profile"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{user_id}}",
+                  "description": "User ID to retrieve profile for"
+                }
+              ]
+            },
+            "description": "Retrieve user profile information by user ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Customer",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<customer>\n  <id>12345</id>\n  <name>John Doe</name>\n  <email>john.doe@example.com</email>\n  <phone>+2348012345678</phone>\n</customer>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/user/validate-customer",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "user", "validate-customer"]
+            },
+            "description": "Validate customer information using XML payload"
+          },
+          "response": []
+        },
+        {
+          "name": "Process Payment Notification",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/xml",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "<payment>\n  <transactionId>TX123456789</transactionId>\n  <amount>50000</amount>\n  <currency>NGN</currency>\n  <status>success</status>\n  <customerId>12345</customerId>\n</payment>",
+              "options": {
+                "raw": {
+                  "language": "xml"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/user/process-payment",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "user", "process-payment"]
+            },
+            "description": "Process payment notifications using XML payload"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Role Management",
+      "item": [
+        {
+          "name": "Get All Roles",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/role/roles",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "role", "roles"]
+            },
+            "description": "Retrieve all available roles in the system"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Role by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/role?roleId={{role_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "role"],
+              "query": [
+                {
+                  "key": "roleId",
+                  "value": "{{role_id}}",
+                  "description": "Role ID to retrieve"
+                }
+              ]
+            },
+            "description": "Retrieve specific role by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Admin Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Password123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "auth", "login"]
+            },
+            "description": "Admin login to obtain JWT token"
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "auth", "reset-password"]
+            },
+            "description": "Request password reset for admin account"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"123456\",\n  \"password\": \"NewPassword123!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/auth/update-password",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "auth", "update-password"]
+            },
+            "description": "Update password using verification code"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "HMO Management",
+      "item": [
+        {
+          "name": "Create HMO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"HealthCare Plus\",\n  \"email\": \"contact@healthcareplus.com\",\n  \"phoneNumber\": \"+2348012345678\",\n  \"address\": \"123 Healthcare Street, Lagos, Nigeria\",\n  \"image\": \"https://example.com/images/healthcare-plus-logo.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo"]
+            },
+            "description": "Create a new HMO organization"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All HMOs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo"]
+            },
+            "description": "Retrieve all HMO organizations"
+          },
+          "response": []
+        },
+        {
+          "name": "Get HMO by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}"]
+            },
+            "description": "Retrieve specific HMO by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update HMO",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated HealthCare Plus\",\n  \"email\": \"updated@healthcareplus.com\",\n  \"phoneNumber\": \"+2348012345678\",\n  \"address\": \"456 Updated Healthcare Street, Lagos, Nigeria\",\n  \"image\": \"https://example.com/images/healthcare-plus-logo-updated.png\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}"]
+            },
+            "description": "Update HMO information"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete HMO",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}"]
+            },
+            "description": "Delete HMO organization"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Healthcare Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Premium Health Plan\",\n  \"description\": \"Comprehensive health coverage with premium benefits\",\n  \"coverageType\": \"COMPREHENSIVE\",\n  \"premiumAmount\": 50000,\n  \"coverageLimit\": 1000000,\n  \"deductible\": 10000,\n  \"coPayPercentage\": 20,\n  \"features\": [\"Dental\", \"Vision\", \"Mental Health\"],\n  \"exclusions\": [\"Cosmetic Surgery\", \"Experimental Treatments\"],\n  \"waitingPeriod\": 30,\n  \"renewalTerms\": \"Annual renewal with 30-day notice\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/plans",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "plans"]
+            },
+            "description": "Create a new healthcare plan for HMO"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Healthcare Plans",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/plans?adminId={{admin_id}}&page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "plans"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{admin_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all healthcare plans for HMO"
+          },
+          "response": []
+        },
+        {
+          "name": "Create Account Tier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gold Tier\",\n  \"description\": \"Premium account tier with enhanced benefits\",\n  \"benefits\": [\"Priority Support\", \"Extended Coverage\", \"Lower Deductibles\"],\n  \"requirements\": [\"Minimum 6 months enrollment\", \"No claims in last 3 months\"],\n  \"discountPercentage\": 15,\n  \"annualFee\": 25000\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/account-tiers",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "account-tiers"]
+            },
+            "description": "Create a new account tier for HMO"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Account Tiers",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/account-tiers?adminId={{admin_id}}&page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "account-tiers"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{admin_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get all account tiers for HMO"
+          },
+          "response": []
+        },
+        {
+          "name": "Get HMO Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/dashboard?adminId={{admin_id}}&startDate=2024-01-01&endDate=2024-01-31",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "dashboard"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{admin_id}}"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-01-31"
+                }
+              ]
+            },
+            "description": "Get HMO dashboard analytics"
+          },
+          "response": []
+        },
+        {
+          "name": "Get HMO Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/enrollments?adminId={{admin_id}}&page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "enrollments"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{admin_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get provider enrollments for HMO"
+          },
+          "response": []
+        },
+        {
+          "name": "Get HMO Hospitals",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/hmo/{{hmo_id}}/hospitals?adminId={{admin_id}}&page=1&limit=10",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "hmo", "{{hmo_id}}", "hospitals"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{admin_id}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Get hospitals associated with HMO"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Claims Management",
+      "item": [
+        {
+          "name": "Create Claim",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"patientId\": \"{{patient_id}}\",\n  \"providerId\": \"{{provider_id}}\",\n  \"amount\": 50000,\n  \"description\": \"Medical consultation and treatment\",\n  \"claimType\": \"medical\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/claims",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "claims"]
+            },
+            "description": "Create a new claim"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Claims",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/claims",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "claims"]
+            },
+            "description": "Retrieve all claims"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Claim by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/claims/{{claim_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "claims", "{{claim_id}}"]
+            },
+            "description": "Retrieve specific claim by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Claim",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"approved\",\n  \"amount\": 45000,\n  \"description\": \"Updated medical consultation and treatment\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/claims/{{claim_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "claims", "{{claim_id}}"]
+            },
+            "description": "Update claim information"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payment Management",
+      "item": [
+        {
+          "name": "Create Payment",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amount\": 50000,\n  \"currency\": \"NGN\",\n  \"paymentMethod\": \"card\",\n  \"description\": \"Payment for medical services\",\n  \"reference\": \"PAY-{{$timestamp}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/payment",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "payment"]
+            },
+            "description": "Create a new payment transaction"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Payments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/payment",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "payment"]
+            },
+            "description": "Retrieve all payment transactions"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Payment by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/payment/{{payment_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "payment", "{{payment_id}}"]
+            },
+            "description": "Retrieve specific payment by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Organization Management",
+      "item": [
+        {
+          "name": "Create Organization",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tech Solutions Ltd\",\n  \"email\": \"contact@techsolutions.com\",\n  \"phoneNumber\": \"+2348012345678\",\n  \"address\": \"123 Tech Street, Lagos, Nigeria\",\n  \"hmoId\": \"{{hmo_id}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/organizations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "organizations"]
+            },
+            "description": "Create a new organization"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Organizations",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/organizations",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "organizations"]
+            },
+            "description": "Retrieve all organizations"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Organization by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/organizations/{{organization_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "organizations", "{{organization_id}}"]
+            },
+            "description": "Retrieve specific organization by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notification Management",
+      "item": [
+        {
+          "name": "Get All Notifications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/notification",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "notification"]
+            },
+            "description": "Retrieve all notifications"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notification by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/notification/{{notification_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "notification", "{{notification_id}}"]
+            },
+            "description": "Retrieve specific notification by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Mark Notification as Read",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"read\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/notification/{{notification_id}}/read",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "notification", "{{notification_id}}", "read"]
+            },
+            "description": "Mark notification as read"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Wallet Management",
+      "item": [
+        {
+          "name": "Get Wallet Balance",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/wallet/balance",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "wallet", "balance"]
+            },
+            "description": "Get wallet balance for authenticated user"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Wallet Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/wallet/transactions",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "wallet", "transactions"]
+            },
+            "description": "Get wallet transaction history"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Cache Management",
+      "item": [
+        {
+          "name": "Clear Cache",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/{{api_version}}/cache",
+              "host": ["{{base_url}}"],
+              "path": ["api", "{{api_version}}", "cache"]
+            },
+            "description": "Clear all cached data"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set default values for variables if not already set",
+          "if (!pm.environment.get('base_url')) {",
+          "    pm.environment.set('base_url', 'http://localhost:3000');",
+          "}",
+          "if (!pm.environment.get('api_version')) {",
+          "    pm.environment.set('api_version', 'v1');",
+          "}"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Common test script for all requests",
+          "pm.test('Status code is 200 or 201', function () {",
+          "    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+          "});",
+          "",
+          "pm.test('Response has required headers', function () {",
+          "    pm.response.to.have.header('Content-Type');",
+          "});",
+          "",
+          "// Auto-save JWT token from login response",
+          "if (pm.request.url.path.includes('auth/login') && pm.response.code === 200) {",
+          "    const responseJson = pm.response.json();",
+          "    if (responseJson.token) {",
+          "        pm.environment.set('jwt_token', responseJson.token);",
+          "        console.log('JWT token saved to environment');",
+          "    }",
+          "}"
+        ]
+      }
+    }
+  ]
+} 

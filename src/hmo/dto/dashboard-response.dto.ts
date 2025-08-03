@@ -1,5 +1,26 @@
 import { Status } from '../../utils/types';
 
+export class DashboardResponseDto {
+  hmoId: string;
+  summary: {
+    totalPlans: number;
+    totalAccountTiers: number;
+    totalHospitals: number;
+    totalSubscriptions: number;
+    activeSubscriptions: number;
+    inactiveSubscriptions: number;
+  };
+  preAuthRequests: {
+    total: number;
+    approved: number;
+    rejected: number;
+    pending: number;
+  };
+  recentActivity: {
+    lastUpdated: Date;
+  };
+}
+
 export class EnrollmentMetricsDto {
   totalEnrollments: number;
   activeEnrollments: number;

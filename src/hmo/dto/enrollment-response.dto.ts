@@ -1,6 +1,16 @@
 import { Status } from '../../utils/types';
 
 export class EnrollmentResponseDto {
+  data: EnrollmentData[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+  };
+}
+
+export class EnrollmentData {
   id: string;
   name: string;
   email: string;

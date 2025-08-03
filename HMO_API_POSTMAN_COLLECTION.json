@@ -1,0 +1,522 @@
+{
+  "info": {
+    "name": "HMO API Collection",
+    "description": "Complete collection of HMO API endpoints for testing and development",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "your-admin-token-here",
+      "type": "string"
+    },
+    {
+      "key": "adminId",
+      "value": "d3b07384-d9a0-4f5c-a3dd-9b3786cb1df0",
+      "type": "string"
+    },
+    {
+      "key": "hmoId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "planId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "tierId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "hospitalId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{adminToken}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "HMO Management",
+      "item": [
+        {
+          "name": "Create HMO",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"HealthCare Plus\",\n  \"email\": \"contact@healthcareplus.com\",\n  \"phoneNumber\": \"+2348012345678\",\n  \"address\": \"123 Healthcare Street, Lagos, Nigeria\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All HMOs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo?adminId={{adminId}}&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get HMO by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}?adminId={{adminId}}&hmoId={{hmoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "hmoId",
+                  "value": "{{hmoId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update HMO",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"HealthCare Plus Updated\",\n  \"email\": \"newcontact@healthcareplus.com\",\n  \"phoneNumber\": \"+2348012345679\",\n  \"address\": \"456 New Healthcare Street, Lagos, Nigeria\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete HMO",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Healthcare Plans",
+      "item": [
+        {
+          "name": "Create Healthcare Plan",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Premium Health Plan\",\n  \"description\": \"Comprehensive health coverage with premium benefits\",\n  \"coverageType\": \"COMPREHENSIVE\",\n  \"premiumAmount\": 50000,\n  \"coverageLimit\": 1000000,\n  \"deductible\": 10000,\n  \"coPayPercentage\": 20,\n  \"features\": [\"Dental\", \"Vision\", \"Mental Health\"],\n  \"exclusions\": [\"Cosmetic Surgery\", \"Experimental Treatments\"],\n  \"waitingPeriod\": 30,\n  \"renewalTerms\": \"Annual renewal with 30-day notice\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/plans",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "plans"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Healthcare Plans",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/plans?adminId={{adminId}}&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "plans"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Healthcare Plan by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/plans/{{planId}}?adminId={{adminId}}&hmoId={{hmoId}}&planId={{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "plans", "{{planId}}"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "hmoId",
+                  "value": "{{hmoId}}"
+                },
+                {
+                  "key": "planId",
+                  "value": "{{planId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Healthcare Plan",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Premium Health Plan Updated\",\n  \"description\": \"Updated comprehensive health coverage\",\n  \"premiumAmount\": 55000,\n  \"coverageLimit\": 1200000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/plans/{{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "plans", "{{planId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Healthcare Plan",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/plans/{{planId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "plans", "{{planId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Account Tiers",
+      "item": [
+        {
+          "name": "Create Account Tier",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gold Tier\",\n  \"description\": \"Premium account tier with enhanced benefits\",\n  \"benefits\": [\"Priority Support\", \"Extended Coverage\", \"Lower Deductibles\"],\n  \"requirements\": [\"Minimum 6 months enrollment\", \"No claims in last 3 months\"],\n  \"discountPercentage\": 15,\n  \"annualFee\": 25000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/account-tiers",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "account-tiers"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Account Tiers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/account-tiers?adminId={{adminId}}&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "account-tiers"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Account Tier by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/account-tiers/{{tierId}}?adminId={{adminId}}&hmoId={{hmoId}}&accountTierId={{tierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "account-tiers", "{{tierId}}"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "hmoId",
+                  "value": "{{hmoId}}"
+                },
+                {
+                  "key": "accountTierId",
+                  "value": "{{tierId}}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Account Tier",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Gold Tier Updated\",\n  \"description\": \"Updated premium account tier\",\n  \"discountPercentage\": 20,\n  \"annualFee\": 30000\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/account-tiers/{{tierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "account-tiers", "{{tierId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account Tier",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/account-tiers/{{tierId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "account-tiers", "{{tierId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Dashboard & Analytics",
+      "item": [
+        {
+          "name": "Get Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/dashboard?adminId={{adminId}}&startDate=2024-01-01&endDate=2024-01-31",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "dashboard"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "startDate",
+                  "value": "2024-01-01"
+                },
+                {
+                  "key": "endDate",
+                  "value": "2024-01-31"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Enrollment Management",
+      "item": [
+        {
+          "name": "Get Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/enrollments?adminId={{adminId}}&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "enrollments"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Hospital Management",
+      "item": [
+        {
+          "name": "Get Hospitals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/hospitals?adminId={{adminId}}&page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "hospitals"],
+              "query": [
+                {
+                  "key": "adminId",
+                  "value": "{{adminId}}"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Associate Hospital",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/hospitals/{{hospitalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "hospitals", "{{hospitalId}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Hospital Association",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/hmo/{{hmoId}}/hospitals/{{hospitalId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["hmo", "{{hmoId}}", "hospitals", "{{hospitalId}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+} 
